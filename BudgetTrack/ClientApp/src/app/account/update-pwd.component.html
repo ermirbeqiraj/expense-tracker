@@ -1,0 +1,58 @@
+<div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+  <div class="card">
+    <div class="header">
+      <h4 class="title">Update password</h4>
+    </div>
+    <div class="content">
+      <div *ngIf="errMessage" class="alert alert-danger alert-dismissable">
+        <strong>
+          {{errMessage}}
+        </strong>
+      </div>
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissable">
+        <strong>
+          {{successMessage}} <span style="cursor:pointer;" class="pull-right" (click)="this.successMessage = ''">&times;</span>
+        </strong>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="submit(form)">
+
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+              <label> Current password </label>
+              <input class="form-control" type="password" id="oldPassword" name="oldPassword" formControlName="oldPassword" />
+              <span class="text-danger" *ngIf="!form.controls['oldPassword'].valid && form.controls['oldPassword'].touched">
+                Current password is required
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+              <label> New password </label>
+              <input class="form-control" type="password" id="password" name="password" formControlName="password" />
+              <span class="text-danger" *ngIf="!form.controls['password'].valid && form.controls['password'].touched">
+                New password is required
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+              <label> Confirm password </label>
+              <input class="form-control" type="password" id="passwordConfirm" name="passwordConfirm" formControlName="passwordConfirm" />
+              <span class="text-danger" *ngIf="!form.controls['passwordConfirm'].valid && form.controls['passwordConfirm'].touched">
+                Password confirm is required
+              </span>
+            </div>
+          </div>
+
+          <div class="pull-right">
+            <a [routerLink]='["/"]' class="btn btn-default btn-fill">Back Home</a> &nbsp; <button type="submit" class="btn btn-info btn-fill">Submit</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+@media (max-width: 767px) {
+  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+  .body-content {
+    padding-top: 50px;
+  }
+}
+
+.connectivity-icon{
+  position: absolute;
+  top: 4em;
+  left: 2em;
+  z-index: 9999;
+}

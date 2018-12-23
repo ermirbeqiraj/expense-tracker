@@ -1,0 +1,41 @@
+
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a [routerLink]="['/']" class="simple-text">
+      Budget Track
+    </a>
+  </div>
+  <ul class="nav responsive-nav">
+    <li routerLinkActive="active" [routerLinkActiveOptions]='{ exact: true }'>
+      <a (click)="menuClick()" [routerLink]='["/"]'>
+        Home
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a (click)="menuClick()" [routerLink]='["/expenses"]'>
+        Expenses
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a (click)="menuClick()" [routerLink]='["/statistics"]'>
+        Statistics
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a (click)="menuClick()" [routerLink]='["/sync"]'>
+        Sync
+      </a>
+    </li>
+    <li class="separator">&nbsp;</li>
+    <li routerLinkActive="active">
+      <a (click)="menuClick()" [routerLink]='["/update-pwd"]'>
+        Update Password
+      </a>
+    </li>
+    <li routerLinkActive="active">
+      <a style="cursor:pointer;" (click)="logout()">
+        Log out
+      </a>
+    </li>
+  </ul>
+</div>

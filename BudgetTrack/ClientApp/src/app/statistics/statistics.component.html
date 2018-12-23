@@ -1,0 +1,121 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="header">
+      <h4 class="title">
+        Expense groups <small class="pull-right" *ngIf="total">| {{ total | currency:'USD' }} |</small>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <label>Start Date</label>
+            <input type="date" class="form-control" [(ngModel)]="startDate" />
+          </div>
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <label>End Date</label>
+            <input type="date" class="form-control" [(ngModel)]="endDate" />
+          </div>
+          <div class="col-md-1 col-sm-2 col-xs-12">
+            <br />
+            <button type="button" class="btn btn-info" (click)="search()" style="width:100%;">
+              <i class="fa fa-search"></i> <span class="hidden-lg hidden-md hidden-sm">Search</span>
+            </button>
+            <br />
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="content table-responsive table-full-width">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    Group
+                  </th>
+                  <th>
+                    Percentage
+                  </th>
+                  <th>
+                    Ammount
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of groupDist">
+                  <td>
+                    <a (click)="getDetails(item.id, item.name)" style="cursor:pointer;">
+                      <span class="text-primary">{{ item.name }}</span>
+                    </a>
+                    <p class="hidden-xs" style="font-size:smaller;">
+                      <span class="text-muted" *ngFor="let category of item.categories; last as isLast ">{{ category }} <span *ngIf="!isLast">, </span></span>
+                    </p>
+                  </td>
+                  <td>
+                    <span>{{ item.percentage | percent  }}</span> &nbsp;
+                    <progress value="{{ item.percentage }}" max="1"></progress>
+                  </td>
+                  <td>
+                    {{ item.ammount | currency:'USD' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <p class="clearfix">&nbsp;</p>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <h5 style="text-align:center;" *ngIf="selectedGroupName">
+            Distribution of <strong>{{ selectedGroupName }}</strong> categories
+          </h5>
+          <div class="row" *ngIf="groupCatData">
+            <pie-chart [data]="groupCatData" [config]="groupCatConfig" [elementId]="groupCatElement"></pie-chart>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <h5 style="text-align:center;" *ngIf="groupData">
+            Expense groups distribution
+          </h5>
+          <div class="row" *ngIf="groupCatData">
+            <pie-chart [data]="groupData" [config]="groupConfig" [elementId]="groupElement"></pie-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-12">
+  <div class="card">
+    <div class="header">
+      <h4 class="title">
+        <span>Monthly based expense group distribution</span>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <label>End Date</label>
+            <input type="date" class="form-control" [(ngModel)]="endDateGroup" />
+          </div>
+          <div class="col-md-1 col-sm-2 col-xs-12">
+            <br />
+            <button type="button" class="btn btn-info" (click)="searchMonthlyDist()" style="width:100%;">
+              <i class="fa fa-search"></i> <span class="hidden-lg hidden-md hidden-sm">Search</span>
+            </button>
+            <br />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="groupMonthData" class="row" style="overflow-y:hidden; overflow-x:auto;">
+        <combo-chart [data]="groupMonthData" [config]="groupMonthConfig" [elementId]="groupMonthElement"></combo-chart>
+      </div>
+    </div>
+  </div>
+</div>

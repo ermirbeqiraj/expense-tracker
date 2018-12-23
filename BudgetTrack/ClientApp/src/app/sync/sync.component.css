@@ -1,0 +1,22 @@
+dl{
+  display: flex;
+}
+
+dt, dd{
+  width: 25%;
+}
+
+@media screen and (max-width:768px){
+  dl{
+    display: inline;
+  }
+  dt, dd{
+    display: inline-block;
+    width: 50%;
+  }
+}
+
+
+.card{
+  padding: 1em;
+}

@@ -1,0 +1,15 @@
+<div class="col-sm-12">
+  <div class="col-sm-3 col-xs-12" *ngFor="let item of groups">
+    <div class="card">
+      <a [routerLink]='["/add-expense", item.id]'>
+        <div class="content" style="padding-top:3px;padding-bottom:5px;">
+          <h4 class="text-center">
+            <span>{{ item.name }}</span>
+            <br />
+            <small class="text-center">{{ item.description }}</small>
+          </h4>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

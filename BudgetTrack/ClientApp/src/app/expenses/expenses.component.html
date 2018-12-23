@@ -1,0 +1,99 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="header">
+      <h4 class="title">
+        Expenses List <small class="pull-right" *ngIf="total">| {{ total | currency:'USD' }} |</small>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-3 col-xs-12">
+            <label>Category</label>
+            <ng-select [items]="categories"
+                       bindLabel="name"
+                       bindValue="id"
+                       [multiple]="false"
+                       groupBy="groupName"
+                       [hideSelected]="true"
+                       [(ngModel)]="selectedCategory">
+            </ng-select>
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <label>Start Date</label>
+            <input class="form-control" type="date" [(ngModel)]="startDate" />
+          </div>
+          <div class="col-md-3 col-xs-12">
+            <label>End Date</label>
+            <input class="form-control" type="date" [(ngModel)]="endDate" />
+          </div>
+          <div class="col-md-1 col-xs-12">
+            <br />
+            <button type="button" class="btn btn-info" (click)="search()" style="width:100%;">
+              <i class="fa fa-search"></i> <span class="hidden-lg hidden-md hidden-sm">Search</span>
+            </button>
+            <br />
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">&nbsp;</div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="content table-responsive table-full-width">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    Category
+                  </th>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Ammount
+                  </th>
+                  <th class="hidden-xs">
+                    Description
+                  </th>
+                  <th>
+                    &nbsp;
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of expenses" [ngStyle]="{ 'background-color': getColor(item.date) }">
+                  <td>
+                    <a *ngIf="item.latitude && item.longitude"
+                       target="_blank"
+                       href="https://www.google.com/maps/search/?api=1&query={{item.latitude}},{{item.longitude}}">
+                      <i class="fa fa-map-marker"></i>
+                    </a>&nbsp;<span>{{item.expenseCategoryName}}</span>
+                  </td>
+                  <td>
+                    {{ item.date | date }}
+                  </td>
+                  <td>
+                    {{ item.ammount | currency:'USD' }}
+                  </td>
+                  <td class="hidden-xs">
+                    <p>
+                      {{ item.description }}
+                    </p>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/edit-expense', item.id]">
+                      Edit
+                    </a> |
+                    <a style="cursor:pointer;" (click)="deleteExpense(item.id)">
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

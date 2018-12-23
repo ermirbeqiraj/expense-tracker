@@ -1,0 +1,76 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="header">
+      <h4 class="title">Edit expense</h4>
+    </div>
+    <div class="content">
+      <div *ngIf="errMessage" class="alert alert-danger alert-dismissable">
+        <strong>
+          {{errMessage}}
+        </strong>
+      </div>
+      <div *ngIf="successMessage" class="alert alert-info alert-dismissable">
+        {{successMessage}} <span style="cursor:pointer;" class="pull-right" (click)="this.successMessage = ''">&times;</span>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+        <div class="row">
+          <!-- components -->
+          <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+              <label> Category </label>
+              <ng-select [items]="categories"
+                         bindLabel="name"
+                         bindValue="id"
+                         [multiple]="false"
+                         groupBy="groupName"
+                         [hideSelected]="true"
+                         formControlName="expenseCategoryId">
+              </ng-select>
+              <span class="text-danger" *ngIf="!form.controls['expenseCategoryId'].valid && form.controls['expenseCategoryId'].touched">
+                Category is required
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+              <label> Date </label>
+              <input type="date" class="form-control" id="date" name="date" autocomplete="off"
+                     formControlName="date" />
+              <span class="text-danger" *ngIf="!form.controls['date'].valid && form.controls['date'].touched">
+                Date is required
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+            <div class="form-group">
+              <label> Ammount </label>
+              <input type="number" class="form-control" id="ammount" name="ammount" autocomplete="off"
+                     formControlName="ammount" min="0" />
+              <span class="text-danger" *ngIf="!form.controls['ammount'].valid && form.controls['ammount'].touched">
+                Ammount is required
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group">
+              <label> Description </label>
+              <textarea class="form-control" id="description" name="description" placeholder="An optional description"
+                        formControlName="description"></textarea>
+            </div>
+          </div>
+
+
+          <!-- ./components -->
+        </div>
+        <div class="pull-right">
+          <a [routerLink]='["/expenses"]' class="btn btn-default btn-fill">List</a> &nbsp; <button type="submit" class="btn btn-info btn-fill">Submit</button>
+        </div>
+        <div class="clearfix"></div>
+      </form>
+    </div>
+  </div>
+</div>
