@@ -13,10 +13,8 @@ Another feature I've added lately includes the ability to add expenses when ther
 
 
 ## Ussage
-
-- Create a mysql database, and update the connection string.
-- Create your own Categories and Groups
-
-then it should be ready to use.
+- Update appsettings.json file to match you dbname, server and password
+- A default user has been created from seed method in ApplicationDbContext with user: admin, pwd: P4$$w0rd, these credentials can be updated as soon as user logs in by username or email.
+- Theres no menu yet to create groups or categories, so you have to do that manually from db.
 
 [https://ermir.net](https://ermir.net)
