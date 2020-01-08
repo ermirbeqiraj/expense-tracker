@@ -37,7 +37,7 @@ namespace BudgetTrack.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email || r.UserName == model.Email);
                 var token = GenerateJwtToken(model.Email, appUser);
                 var obj = new
                 {

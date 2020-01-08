@@ -1,6 +1,9 @@
 ﻿using BudgetTrack.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BudgetTrack.Data
 {
@@ -14,6 +17,24 @@ namespace BudgetTrack.Data
         public DbSet<ExpenseGroup> ExpenseGroup { get; set; }
         public DbSet<ExpenseCategory> ExpenseCategory { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+
+
+        internal void Seed(UserManager<IdentityUser> userManager)
+        {
+            var dbExists = Database.GetService<IRelationalDatabaseCreator>().Exists();
+            if (!dbExists)
+            {
+                this.Database.EnsureCreated();
+            }
+
+            var user = new IdentityUser
+            {
+                UserName = "admin",
+                Email = "admin@expense-track.admin"
+            };
+
+            userManager.CreateAsync(user, "P4$$w0rd").ConfigureAwait(false).GetAwaiter().GetResult();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -82,7 +82,7 @@ namespace BudgetTrack
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -103,13 +103,13 @@ namespace BudgetTrack
                 app.UseHsts();
             }
 
+            dbContext.Seed(userManager);
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
@@ -131,7 +131,7 @@ namespace BudgetTrack
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-            
+
         }
     }
 }
