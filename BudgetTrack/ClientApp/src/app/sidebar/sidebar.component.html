@@ -27,8 +27,8 @@
       </a>
     </li>
 
-    <li class="separator">&nbsp;</li>
-        <li routerLinkActive="active">
+    <li *ngIf="isAdmin" class="separator">&nbsp;</li>
+    <li *ngIf="isAdmin" routerLinkActive="active">
       <a (click)="menuClick()" [routerLink]='["/register"]'>
         Register
       </a>

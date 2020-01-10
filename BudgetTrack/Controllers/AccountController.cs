@@ -47,7 +47,7 @@ namespace BudgetTrack.Controllers
                 var obj = new
                 {
                     access_token = token,
-                    roles = userRoles
+                    roles = userRoles.ToList()
                 };
 
                 return Ok(obj);

@@ -12,6 +12,7 @@ export class LocalStorageManager {
    * */
   public ClearAuth() {
     localStorage.removeItem('token');
+    localStorage.removeItem('roles');
   }
 
   /**
@@ -20,5 +21,19 @@ export class LocalStorageManager {
    */
   public SetToken(token: string) {
     localStorage.setItem('token', token);
+  }
+
+  public SetRoles(roles: string) {
+    localStorage.removeItem('roles');
+    if (roles)
+      localStorage.setItem('roles', JSON.stringify(roles));
+  }
+
+  public GetRoles() : string[] {
+    let roles = localStorage.getItem('roles');
+    if (roles)
+      return JSON.parse(roles);
+    else
+      return [];
   }
 }

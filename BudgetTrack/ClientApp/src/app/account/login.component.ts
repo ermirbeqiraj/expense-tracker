@@ -1,11 +1,8 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { LoginResult } from "../models/LoginResult";
-import { Response } from "@angular/http";
-import { LocalStorageManager } from "../services/local-storage.service";
-import { HttpClient } from "@angular/common/http";
 import { AccountService } from "../services/account.service";
+import { LocalStorageManager } from "../services/local-storage.service";
 
 @Component({
   selector: 'login',
@@ -23,8 +20,6 @@ export class LoginComponent {
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
-
-    console.log('loading login component');
   }
   ngOnInit() {
     if (this.storageManager.GetToken()) {
@@ -33,13 +28,10 @@ export class LoginComponent {
   }
 
   login(form: any) {
-    let body = {
-      email: form.value.userName,
-      password: form.value.password
-    };
-
     this.accountService.login(form.value.userName, form.value.password).subscribe(result => {
       this.storageManager.SetToken(result.access_token);
+      this.storageManager.SetRoles(result.roles);
+
       this.router.navigate(['']);
     }, err => console.log(err));
   }

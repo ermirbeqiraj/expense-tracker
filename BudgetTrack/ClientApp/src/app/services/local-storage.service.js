@@ -15,6 +15,7 @@ var LocalStorageManager = /** @class */ (function () {
      * */
     LocalStorageManager.prototype.ClearAuth = function () {
         localStorage.removeItem('token');
+        localStorage.removeItem('roles');
     };
     /**
      * set token to local storage
@@ -22,6 +23,18 @@ var LocalStorageManager = /** @class */ (function () {
      */
     LocalStorageManager.prototype.SetToken = function (token) {
         localStorage.setItem('token', token);
+    };
+    LocalStorageManager.prototype.SetRoles = function (roles) {
+        localStorage.removeItem('roles');
+        if (roles)
+            localStorage.setItem('roles', JSON.stringify(roles));
+    };
+    LocalStorageManager.prototype.GetRoles = function () {
+        var roles = localStorage.getItem('roles');
+        if (roles)
+            return JSON.parse(roles);
+        else
+            return [];
     };
     return LocalStorageManager;
 }());

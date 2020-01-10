@@ -16,11 +16,15 @@ declare interface RouteInfo {
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
+  isAdmin: boolean = false;
 
   constructor(private storageManager: LocalStorageManager, private router: Router, private msgService: MsgService) { }
 
   ngOnInit() {
-    
+    var allRoles = this.storageManager.GetRoles();
+    if (allRoles && allRoles.length) {
+      this.isAdmin = allRoles.filter(x => x == "administrator").length == 1;
+    }
   }
 
   logout() {
