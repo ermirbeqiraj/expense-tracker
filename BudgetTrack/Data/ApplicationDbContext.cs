@@ -19,13 +19,20 @@ namespace BudgetTrack.Data
         public DbSet<Expense> Expenses { get; set; }
 
 
-        internal void Seed(UserManager<IdentityUser> userManager)
+        internal void Seed(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            const string rolename = "administrator";
             var dbExists = Database.GetService<IRelationalDatabaseCreator>().Exists();
-            if (!dbExists)
+
+            if (dbExists)
             {
-                this.Database.EnsureCreated();
+                return;
             }
+
+            Database.EnsureCreated();
+
+            var role = new IdentityRole(rolename);
+            roleManager.CreateAsync(role);
 
             var user = new IdentityUser
             {
@@ -34,6 +41,7 @@ namespace BudgetTrack.Data
             };
 
             userManager.CreateAsync(user, "P4$$w0rd").ConfigureAwait(false).GetAwaiter().GetResult();
+            userManager.AddToRoleAsync(user, rolename).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

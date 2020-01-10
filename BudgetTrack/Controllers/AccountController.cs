@@ -1,10 +1,12 @@
 ﻿using BudgetTrack.Extentions;
+using BudgetTrack.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -38,10 +40,14 @@ namespace BudgetTrack.Controllers
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email || r.UserName == model.Email);
-                var token = GenerateJwtToken(model.Email, appUser);
+
+                var userRoles = await _userManager.GetRolesAsync(appUser);
+
+                var token = GenerateJwtToken(model.Email, appUser, userRoles.ToList());
                 var obj = new
                 {
-                    access_token = token
+                    access_token = token,
+                    roles = userRoles
                 };
 
                 return Ok(obj);
@@ -49,9 +55,9 @@ namespace BudgetTrack.Controllers
             return BadRequest("Invalid login attempt");
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Roles = Roles.ADMIN)]
         [HttpPost]
-        public async Task<object> Register([FromBody] RegisterDto model)
+        public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             var user = new IdentityUser
             {
@@ -62,11 +68,11 @@ namespace BudgetTrack.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
-                return GenerateJwtToken(model.Email, user);
+                return Ok();
             }
 
-            throw new ApplicationException("UNKNOWN_ERROR");
+            var error = string.Join(", ", result.Errors.SelectMany(e => e.Description));
+            return BadRequest(error);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -88,7 +94,7 @@ namespace BudgetTrack.Controllers
                 return BadRequest(updatePasswordResult.Errors.Select(x => x.Description).FirstOrDefault());
         }
 
-        private object GenerateJwtToken(string email, IdentityUser user)
+        private object GenerateJwtToken(string email, IdentityUser user, List<string> roles)
         {
             var claims = new List<Claim>
             {
@@ -97,6 +103,10 @@ namespace BudgetTrack.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
+
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+            //claims.Add(new Claim("roles", JsonConvert.SerializeObject(roles)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfigs:JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -39,6 +39,7 @@ namespace BudgetTrack
                 .AddDefaultTokenProviders();
 
             // ===== Add Jwt Authentication ========
+            #region auth
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services
                 .AddAuthentication(options =>
@@ -59,6 +60,7 @@ namespace BudgetTrack
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            #endregion
 
             services.AddRouting(routingOptions =>
             {
@@ -82,7 +84,7 @@ namespace BudgetTrack
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -103,7 +105,7 @@ namespace BudgetTrack
                 app.UseHsts();
             }
 
-            dbContext.Seed(userManager);
+            dbContext.Seed(userManager, roleManager);
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
@@ -111,6 +113,8 @@ namespace BudgetTrack
             });
 
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

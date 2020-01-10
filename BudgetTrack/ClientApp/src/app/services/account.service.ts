@@ -1,8 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Response } from '@angular/http';
-import { Observable } from 'rxjs';
 import { LoginResult, UpdatePasswordDto } from '../models/LoginResult';
+import { RegisterUserDto } from '../models/RegisterModels';
 
 @Injectable()
 export class AccountService {
@@ -16,6 +15,11 @@ export class AccountService {
 
   updatePassword(model: UpdatePasswordDto) {
     const url = `${this.apiUrl}/UpdatePassword`;
+    return this.http.post(url, model);
+  }
+
+  registerUser(model: RegisterUserDto) {
+    const url = `${this.apiUrl}/Register`;
     return this.http.post(url, model);
   }
 }

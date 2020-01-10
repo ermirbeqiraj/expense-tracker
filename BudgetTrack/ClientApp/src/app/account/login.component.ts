@@ -23,6 +23,8 @@ export class LoginComponent {
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+    console.log('loading login component');
   }
   ngOnInit() {
     if (this.storageManager.GetToken()) {
