@@ -22,4 +22,14 @@ export class AccountService {
     const url = `${this.apiUrl}/Register`;
     return this.http.post(url, model);
   }
+
+  getUsers() {
+    const url = `${this.apiUrl}/Users`;
+    return this.http.get<string[]>(url);
+  }
+
+  delete(user: string) {
+    const url = `${this.apiUrl}/Delete?email=${user}`;
+    return this.http.delete(url);
+  }
 }

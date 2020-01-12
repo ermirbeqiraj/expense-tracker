@@ -33,6 +33,11 @@
         Register
       </a>
     </li>
+    <li *ngIf="isAdmin" routerLinkActive="active">
+      <a (click)="menuClick()" [routerLink]='["/users"]'>
+        Users
+      </a>
+    </li>
 
     <li class="separator">&nbsp;</li>
     <li routerLinkActive="active">

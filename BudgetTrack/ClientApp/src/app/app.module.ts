@@ -40,6 +40,7 @@ import { environment } from '../environments/environment';
 import { ToastrModule } from 'ngx-toastr';
 import { SyncComponent } from './sync/sync.component';
 import { RegisterComponent } from './account/register.component';
+import { UsersComponent } from './account/users.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { RegisterComponent } from './account/register.component';
     ComboChartComponent,
     UpdatePwdComponent,
     SyncComponent,
-    RegisterComponent
+    RegisterComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -76,7 +78,8 @@ import { RegisterComponent } from './account/register.component';
       { path: 'update-pwd', component: UpdatePwdComponent },
       { path: 'login', component: LoginComponent },
       { path: 'sync', component: SyncComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: 'register', component: RegisterComponent },
+      { path: 'users', component: UsersComponent }
     ]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

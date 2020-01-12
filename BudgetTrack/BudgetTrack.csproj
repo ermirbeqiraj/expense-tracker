@@ -37,6 +37,7 @@
     <None Remove="ClientApp\src\app\account\login.component.ts" />
     <None Remove="ClientApp\src\app\account\register.component.ts" />
     <None Remove="ClientApp\src\app\account\update-pwd.component.ts" />
+    <None Remove="ClientApp\src\app\account\users.component.ts" />
     <None Remove="ClientApp\src\app\charts\combochart.component.ts" />
     <None Remove="ClientApp\src\app\charts\piechart.component.ts" />
     <None Remove="ClientApp\src\app\models\ExpenseCategoryModel.ts" />
@@ -62,6 +63,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\account\register.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\account\update-pwd.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\account\login.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\account\users.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\charts\combochart.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\charts\piechart.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\ExpenseGroupModel.ts" />
