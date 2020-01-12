@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -94,6 +95,26 @@ namespace BudgetTrack.Controllers
                 return BadRequest(updatePasswordResult.Errors.Select(x => x.Description).FirstOrDefault());
         }
 
+        [HttpGet]
+        [Authorize(Roles = Roles.ADMIN)]
+        public async Task<IActionResult> Users()
+        {
+            var users = await _userManager.Users.Select(x => x.Email).ToListAsync();
+            return Ok(users);
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = Roles.ADMIN)]
+        public async Task<IActionResult> Delete(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return NotFound();
+
+            await _userManager.DeleteAsync(user);
+            return Ok();
+        }
+
         private object GenerateJwtToken(string email, IdentityUser user, List<string> roles)
         {
             var claims = new List<Claim>
@@ -105,8 +126,6 @@ namespace BudgetTrack.Controllers
             };
 
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-            //claims.Add(new Claim("roles", JsonConvert.SerializeObject(roles)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtConfigs:JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

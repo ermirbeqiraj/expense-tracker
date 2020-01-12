@@ -23,7 +23,7 @@ export class LocalStorageManager {
     localStorage.setItem('token', token);
   }
 
-  public SetRoles(roles: string) {
+  public SetRoles(roles: string[]) {
     localStorage.removeItem('roles');
     if (roles)
       localStorage.setItem('roles', JSON.stringify(roles));
