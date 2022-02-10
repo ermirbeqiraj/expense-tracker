@@ -57,6 +57,6 @@
     "zone.js": "^0.9.1"
   },
   "optionalDependencies": {
-    "node-sass": "^4.9.0"
+    "node-sass": "^7.0.0"
   }
 }
